@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System;
 
 namespace Leetcode.Easy.SquaresOfSortedArray;
 
@@ -24,50 +23,54 @@ public class Solution
 {
     public int[] SortedSquares(int[] nums)
     {
-        var result = new LinkedList<int>();
-        var index = default(int);
+        var length = nums.Length;
 
-        for (index = 0; index < nums.Length; index++)
+        if (length == 0)
         {
-            if (nums[index] <= 0)
+            return Array.Empty<int>();
+        }
+        else if (length == 1)
+        {
+            return new[] { nums[0] * nums[0] };
+        }
+
+        var result = new int[length];
+        var left = 0;
+        var right = length - 1;
+        var index = right;
+        var leftValue = nums[left] * nums[left];
+        var rightValue = nums[right] * nums[right];
+
+        while (left < right)
+        {
+            if (leftValue < rightValue)
             {
-                result.AddFirst(nums[index] * nums[index]);
+                result[index--] = rightValue;
+                right--;
+                rightValue = nums[right] * nums[right];
+            }
+            else if (leftValue > rightValue)
+            {
+                result[index--] = leftValue;
+                left++;
+                leftValue = nums[left] * nums[left];
             }
             else
             {
-                break;
+                result[index--] = leftValue;
+                result[index--] = rightValue;
+                left++;
+                right--;
+                leftValue = nums[left] * nums[left];
+                rightValue = nums[right] * nums[right];
             }
         }
 
-        if (index == nums.Length)
+        if (left == right)
         {
-            return result.ToArray();
+            result[index] = leftValue;
         }
 
-        if (result.Count == 0)
-        {
-            return nums.Select(x => x * x).ToArray();
-        }
-
-        if (nums[index] * nums[index] < result.First.Value)
-        {
-            result.AddFirst(nums[index] * nums[index]);
-            index++;
-        }
-
-        var node = result.First;
-        for (var i = index; i < nums.Length; i++)
-        {
-            var value = nums[i] * nums[i];
-
-            while (node.Next != null && node.Next.Value <= value)
-            {
-                node = node.Next;
-            }
-
-            node = result.AddAfter(node, value);
-        }
-
-        return result.ToArray();
+        return result;
     }
 }
