@@ -77,6 +77,7 @@ namespace Leetcode.Hard
                                     var sCharNum = sIndex - sCharPos;
                                     var pCharNum = pIndex - pCharPos;
 
+                                    /*
                                     s = "baaa"  !=  p = "baaaaa*"
                                     s = "baaa"      p = "baa*aa*aa*"
                                     s = "baaa"      p = "baaa*a*aa*"
@@ -96,6 +97,7 @@ namespace Leetcode.Hard
                                     s = "baaa"      p = "ba*aa"
                                     s = "baaa"      p = "ba*aaa"
                                     s = "baaa"      p = "ba*a*a*aaa"
+                                    */
                                 }
                                 break;
                         }
